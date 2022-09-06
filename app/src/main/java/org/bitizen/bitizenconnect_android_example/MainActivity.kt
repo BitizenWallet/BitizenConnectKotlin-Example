@@ -16,7 +16,6 @@ import org.bitizen.bitizenconnect_android_example.databinding.ActivityMainBindin
 import org.bitizen.connect.Client
 import org.bitizen.connect.Session
 import org.bitizen.connect.impls.*
-import java.io.File
 import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
@@ -35,45 +34,6 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
-
-        binding.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-
-            val okClient = OkHttpClient.Builder().pingInterval(1000, TimeUnit.MILLISECONDS).build()
-            val moshi = Moshi.Builder().build()
-
-            val client = BCClient(
-                Session.PeerMeta(
-                    name = "Example App",
-                    url = "https://example.com",
-                    description = "example app",
-                    icons = listOf("https://bitizen.org/wp-content/uploads/2022/04/cropped-vi-192x192.png")
-                ),
-                MoshiPayloadAdapter(moshi),
-                OkHttpTransport.Builder(okClient, moshi),
-                { status ->
-                    println("onStatus $status")
-                },
-                { call ->
-                    println("onCall $call")
-                }
-            )
-
-            val wsURL = client.connect(
-                Client.Config(
-                    bridge = "https://bridge.walletconnect.org",
-                    topic = null,
-                    key = null,
-                    peerId = null
-                )
-            ) { response ->
-                println("connect response $response")
-            }
-            Log.e("BC_example", "onCreate: $wsURL")
-            Thread.sleep(2000)
-            client.disconnect()
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
