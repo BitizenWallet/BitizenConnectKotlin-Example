@@ -18,9 +18,12 @@ class MainViewModel : ViewModel(), BitizenConnectDelegate {
     val chainId: LiveData<Int?> = _chainId
     val account: LiveData<String?> = _account
 
-    override fun didConnect(chainId: Int?, accounts: String?) {
+    override fun didConnect(chainId: Int?, accounts: List<String>?) {
+        if(accounts==null){
+            throw Exception()
+        }
         _chainId.postValue(chainId)
-        _account.postValue(accounts)
+        _account.postValue(accounts[0])
         _connected.postValue(true)
     }
 
