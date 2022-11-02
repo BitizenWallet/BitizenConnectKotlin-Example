@@ -22,7 +22,8 @@
         tools:layout="@layout/fragment_second">
 
         <action
+            app:popUpTo="@id/FirstFragment"
             android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
+            />
     </fragment>
 </navigation>
